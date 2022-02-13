@@ -14,3 +14,7 @@ yarn start
 ### 기술 스택
 
 React, TypeScript, Emotion
+
+### TODOS
+
+-[] 프로그래스바 드래그할 때 초기화되는 이슈
