@@ -1,10 +1,13 @@
-import { Video } from './components';
+import { useState } from 'react';
+import { Card, VideoPlayer } from './components';
 import * as styles from './styles';
 
 function App() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div css={styles.container}>
-      <Video />
+      {open ? <Card /> : <VideoPlayer />}
     </div>
   );
 }

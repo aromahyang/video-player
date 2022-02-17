@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Overlay from './Overlay';
 import Skip from './Skip';
-import { getVideoInfo } from '../../utils/api';
+import { getVideoInfo, VideoInfo } from '../../utils/api';
 import { toggleFullScreen } from '../../utils/fullscreen';
 import * as styles from './styles';
 
-function Video() {
-  const [videoInfo, setVideoInfo] = useState<{ [x: string]: any }>({});
+function VideoPlayer() {
+  const [videoInfo, setVideoInfo] = useState<VideoInfo>({
+    url: '',
+    title: '',
+    opening: null,
+    ending: null,
+  });
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState<null | number>(null);
@@ -17,7 +22,7 @@ function Video() {
   const init = () => {
     (async () => {
       const response = await getVideoInfo();
-      setVideoInfo(response);
+      setVideoInfo(response as VideoInfo);
     })();
   };
 
@@ -96,9 +101,9 @@ function Video() {
   const handleSkipClick = () => {
     if (videoRef.current) {
       let target = 0;
-      if (current <= videoInfo.opening[1]) {
+      if (videoInfo.opening && current <= videoInfo.opening[1]) {
         target = videoInfo.opening[1] + 1;
-      } else if (current >= videoInfo.ending[0]) {
+      } else if (videoInfo.ending && current >= videoInfo.ending[0]) {
         target = videoInfo.ending[1] + 1;
       }
       setCurrent(target);
@@ -141,4 +146,4 @@ function Video() {
   );
 }
 
-export default Video;
+export default VideoPlayer;
