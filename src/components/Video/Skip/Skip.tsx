@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import * as styles from './styles';
 
 interface Props {
-  video: any;
   opening: number[];
   ending: number[];
   current: number;
-  setCurrent: (v: number) => void;
+  onClick: () => void;
 }
 
-function Skip({ video, opening, ending, current, setCurrent }: Props) {
+function Skip({ opening, ending, current, onClick }: Props) {
   const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -27,24 +26,9 @@ function Skip({ video, opening, ending, current, setCurrent }: Props) {
     }
   }, [current, opening, ending]);
 
-  const handleClick = () => {
-    if (!video) {
-      return;
-    }
-
-    let target = 0;
-    if (current <= opening[1]) {
-      target = opening[1] + 1;
-    } else if (current >= ending[0]) {
-      target = ending[1] + 1;
-    }
-    setCurrent(target);
-    video.currentTime = target;
-  };
-
   return isVisible && opening.length && ending.length ? (
     <div css={styles.container}>
-      <button onClick={handleClick}>
+      <button onClick={onClick}>
         {current < opening[1] ? '오프닝' : '엔딩'} 스킵
       </button>
     </div>

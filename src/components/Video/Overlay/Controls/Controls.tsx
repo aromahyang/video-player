@@ -1,28 +1,34 @@
 import { useEffect, useRef, useState } from 'react';
-import { toggleFullScreen, getPercentage } from './utils';
+import { getPercentage } from './utils';
 import ICONS from '../../../../icons';
 import * as styles from './styles';
 
 interface Props {
-  video: any;
-  videoContainer: any;
   current: number;
   duration: null | number;
   playing: boolean;
-  setCurrent: (v: number) => void;
-  setPlaying: (v: boolean) => void;
-  setOverlayVisible: (v: boolean) => void;
+  onPlayClick: () => void;
+  onBackwardClick: () => void;
+  onForwardClick: () => void;
+  onFullScreenClick: () => void;
+  moveCurrentTime: (value: number) => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onMouseDown: () => void;
 }
 
 function Controls({
-  video,
-  videoContainer,
   current,
   duration,
   playing,
-  setCurrent,
-  setPlaying,
-  setOverlayVisible,
+  onPlayClick,
+  onBackwardClick,
+  onForwardClick,
+  onFullScreenClick,
+  moveCurrentTime,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
 }: Props) {
   const barRef = useRef<HTMLDivElement>(null);
   const timer: { current: NodeJS.Timeout | null } = useRef(null);
@@ -36,7 +42,8 @@ function Controls({
 
   const init = () => {
     document.addEventListener('fullscreenchange', handleFullScreen);
-    return () => window.removeEventListener('fullscreenchange', handleFullScreen);
+    return () =>
+      window.removeEventListener('fullscreenchange', handleFullScreen);
   };
 
   useEffect(init, []);
@@ -60,71 +67,25 @@ function Controls({
     return value;
   };
 
-  const setCurrentTime = (value: number) => {
-    setCurrent(value);
-    video.currentTime = value;
-    setPlaying(value < Math.floor(video.duration));
-  };
-
-  const removeOverlay = () => {
-    setOverlayVisible(false);
-  };
-
   const handleMouseEnter = () => {
-    setOverlayVisible(true);
+    onMouseEnter();
     if (timer.current) {
       clearTimeout(timer.current);
     }
   };
 
   const handleMouseLeave = () => {
-    timer.current = setTimeout(removeOverlay, 3000);
+    timer.current = setTimeout(onMouseLeave, 3000);
   };
 
   const handleMouseMove = (event: any) => {
     const value = getCurrentTime(event);
-    setCurrentTime(value);
-  };
-
-  const handleMouseDown = () => {
-    setPlaying(false);
+    moveCurrentTime(value);
   };
 
   const handleMouseUp = (event: any) => {
     const value = getCurrentTime(event);
-    setCurrentTime(value);
-  };
-
-  const handlePlayButtonClick = () => {
-    if (!video) {
-      return;
-    }
-
-    setPlaying(!playing);
-  };
-
-  const handleBackwardButtonClick = () => {
-    if (!video) {
-      return;
-    }
-
-    video.currentTime -= 10;
-  };
-
-  const handleForwardButtonClick = () => {
-    if (!video) {
-      return;
-    }
-
-    video.currentTime += 10;
-  };
-
-  const handleScreenButtonClick = () => {
-    if (!videoContainer) {
-      return;
-    }
-    toggleFullScreen(videoContainer);
-    // setFullScreen(!!document.fullscreenElement);
+    moveCurrentTime(value);
   };
 
   return (
@@ -142,7 +103,7 @@ function Controls({
               duration !== null ? Math.floor(duration) : 100
             )
           )}
-          onMouseDown={handleMouseDown}
+          onMouseDown={onMouseDown}
           onMouseUp={handleMouseUp}
         >
           <div className="timeline" ref={barRef} />
@@ -156,7 +117,7 @@ function Controls({
         </div>
         <div css={styles.controlPanel}>
           <div css={styles.leftControls}>
-            <button className="play-button" onClick={handlePlayButtonClick}>
+            <button className="play-button" onClick={onPlayClick}>
               <img
                 src={playing ? ICONS['pause'] : ICONS['play']}
                 alt={playing ? 'pause' : 'play'}
@@ -166,21 +127,23 @@ function Controls({
               <img
                 src={ICONS['backward_10']}
                 alt="backward 10 seconds"
-                onClick={handleBackwardButtonClick}
+                onClick={onBackwardClick}
               />
             </button>
             <button className="screen-button">
               <img
                 src={ICONS['forward_10']}
                 alt="forward 10 seconds"
-                onClick={handleForwardButtonClick}
+                onClick={onForwardClick}
               />
             </button>
           </div>
           <div>
-            <button className="screen-button" onClick={handleScreenButtonClick}>
+            <button className="screen-button" onClick={onFullScreenClick}>
               <img
-                src={isFullScreen ? ICONS['screen_small'] : ICONS['screen_full']}
+                src={
+                  isFullScreen ? ICONS['screen_small'] : ICONS['screen_full']
+                }
                 alt={isFullScreen ? 'screen_small' : 'screen_full'}
               />
             </button>

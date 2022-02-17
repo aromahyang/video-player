@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Overlay from './Overlay';
 import Skip from './Skip';
 import { getVideoInfo } from '../../utils/api';
+import { toggleFullScreen } from '../../utils/fullscreen';
 import * as styles from './styles';
 
 function Video() {
@@ -52,6 +53,62 @@ function Video() {
     setPlaying(false);
   };
 
+  /** ==== Overlay ==== */
+
+  const handlePlayClick = () => {
+    if (videoRef.current) {
+      setPlaying(!playing);
+    }
+  };
+
+  const handleBackwardClick = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime -= 10;
+    }
+  };
+
+  const handleForwardClick = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += 10;
+    }
+  };
+
+  const handleFullScreenClick = () => {
+    if (videoContainerRef.current) {
+      toggleFullScreen(videoContainerRef.current);
+    }
+  };
+
+  const moveCurrentTime = (value: number) => {
+    if (videoRef.current) {
+      setCurrent(value);
+      videoRef.current.currentTime = value;
+      setPlaying(value < Math.floor(videoRef.current.duration));
+    }
+  };
+
+  const handleMouseDownInControl = () => {
+    setPlaying(false);
+  };
+
+  /** ==== Skip ==== */
+
+  const handleSkipClick = () => {
+    if (videoRef.current) {
+      let target = 0;
+      if (current <= videoInfo.opening[1]) {
+        target = videoInfo.opening[1] + 1;
+      } else if (current >= videoInfo.ending[0]) {
+        target = videoInfo.ending[1] + 1;
+      }
+      setCurrent(target);
+      videoRef.current.currentTime = target;
+      if (!playing) {
+        setPlaying(true);
+      }
+    }
+  };
+
   return (
     <div ref={videoContainerRef} css={styles.container}>
       <video
@@ -63,21 +120,22 @@ function Video() {
         onEnded={handleVideoEnded}
       />
       <Overlay
-        video={videoRef.current}
-        videoContainer={videoContainerRef.current}
         current={current}
         duration={duration}
         title={videoInfo.title ?? ''}
         plyaing={playing}
-        setPlaying={setPlaying}
-        setCurrent={setCurrent}
+        onPlayClick={handlePlayClick}
+        onBackwardClick={handleBackwardClick}
+        onForwardClick={handleForwardClick}
+        onFullScreenClick={handleFullScreenClick}
+        moveCurrentTime={moveCurrentTime}
+        onMouseDown={handleMouseDownInControl}
       />
       <Skip
-        video={videoRef.current}
         opening={videoInfo.opening ?? []}
         ending={videoInfo.ending ?? []}
         current={current}
-        setCurrent={setCurrent}
+        onClick={handleSkipClick}
       />
     </div>
   );

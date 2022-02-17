@@ -4,27 +4,39 @@ import { formatTime } from './utils';
 import * as styles from './styles';
 
 interface Props {
-  video: any;
-  videoContainer: any;
   duration: null | number;
   current: number;
   title: string;
   plyaing: boolean;
-  setCurrent: (v: number) => void;
-  setPlaying: (v: boolean) => void;
+  onPlayClick: () => void;
+  onBackwardClick: () => void;
+  onForwardClick: () => void;
+  onFullScreenClick: () => void;
+  moveCurrentTime: (value: number) => void;
+  onMouseDown: () => void;
 }
 
 function Overlay({
-  video,
-  videoContainer,
   current,
   duration,
   title,
   plyaing,
-  setCurrent,
-  setPlaying,
+  onPlayClick,
+  onBackwardClick,
+  onForwardClick,
+  onFullScreenClick,
+  moveCurrentTime,
+  onMouseDown,
 }: Props) {
   const [isVisible, setVisible] = useState(true);
+
+  const handleMouseLeave = () => {
+    setVisible(false);
+  };
+
+  const handleMouseEnter = () => {
+    setVisible(true);
+  };
 
   return (
     <div css={styles.container(isVisible)}>
@@ -32,19 +44,22 @@ function Overlay({
         <div css={styles.information}>
           <h1>{title}</h1>
           <p>
-            {video ? formatTime(current).join(':') : '0:00'} /{' '}
+            {formatTime(current).join(':')} /{' '}
             {duration !== null ? formatTime(duration).join(':') : '0:00'}
           </p>
         </div>
         <Controls
-          video={video}
-          videoContainer={videoContainer}
           current={current}
           duration={duration}
           playing={plyaing}
-          setCurrent={setCurrent}
-          setPlaying={setPlaying}
-          setOverlayVisible={setVisible}
+          onPlayClick={onPlayClick}
+          onBackwardClick={onBackwardClick}
+          onForwardClick={onForwardClick}
+          onFullScreenClick={onFullScreenClick}
+          moveCurrentTime={moveCurrentTime}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={onMouseDown}
         />
       </div>
     </div>
