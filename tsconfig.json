@@ -1,11 +1,8 @@
 {
+  "extends": "./tsconfig.extend.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,7 +19,5 @@
     "jsxImportSource": "@emotion/react",
     "types": ["node", "webpack-env"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
