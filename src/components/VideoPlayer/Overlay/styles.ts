@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import colors from '~/styles/colors';
 
 export const container = (isVisible: boolean) => css`
   position: absolute;
@@ -44,7 +45,7 @@ export const information = css`
 
   h1 {
     margin: 0;
-    color: #fff;
+    color: ${colors.white};
     font-weight: 700;
     font-size: 48px;
     line-height: 72px;
@@ -52,7 +53,7 @@ export const information = css`
 
   p {
     margin: 0;
-    color: #fff;
+    color: ${colors.white};
     font-weight: 400;
     font-size: 24px;
     line-height: 36px;

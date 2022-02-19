@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import colors from '~/styles/colors';
 
 export const container = css`
   position: absolute;
@@ -15,7 +16,7 @@ export const container = css`
     line-height: 18.75px;
     letter-spacing: -0.6px;
     text-align: center;
-    background-color: #fff;
+    background-color: ${colors.white};
     cursor: pointer;
   }
 `;

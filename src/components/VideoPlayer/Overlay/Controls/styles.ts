@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import colors from '~/styles/colors';
 
 export const container = css`
   width: 100%;
@@ -39,7 +40,7 @@ export const range = (left: number, width: number) => css`
     height: 24px;
     border-radius: 50%;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    background-color: #fff;
+    background-color: ${colors.white};
   }
 
   .timeline--thumb:active {
@@ -54,7 +55,7 @@ export const range = (left: number, width: number) => css`
     width: ${width}%;
     height: 4px;
     border-radius: 4px;
-    background-color: #816BFF;
+    background-color: ${colors.purple};
   }
 `;
 

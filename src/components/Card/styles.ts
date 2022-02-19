@@ -14,3 +14,5 @@ export const container = css`
     padding: 0 8px;
   }
 `;
+
+export const spinner = css``;
