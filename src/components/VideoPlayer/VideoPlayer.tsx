@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import Overlay from './Overlay';
 import Skip from './Skip';
-import { getVideoInfo, VideoInfo } from '../../utils/api';
-import { toggleFullScreen } from '../../utils/fullscreen';
+import { getVideoInfo, VideoInfo } from './utils/api';
+import { toggleFullScreen } from './utils/fullscreen';
 import * as styles from './styles';
 
-function VideoPlayer() {
+interface Props {
+  onBackClick: () => void;
+}
+
+function VideoPlayer({ onBackClick }: Props) {
   const [videoInfo, setVideoInfo] = useState<VideoInfo>({
     url: '',
     title: '',
@@ -22,7 +26,7 @@ function VideoPlayer() {
   const init = () => {
     (async () => {
       const response = await getVideoInfo();
-      setVideoInfo(response as VideoInfo);
+      setVideoInfo(response);
     })();
   };
 

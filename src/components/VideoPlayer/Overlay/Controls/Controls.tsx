@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { getPercentage } from './utils';
-import ICONS from '../../../../icons';
+import ICONS from '~/icons';
 import * as styles from './styles';
 
 interface Props {

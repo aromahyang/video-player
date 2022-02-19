@@ -5,9 +5,21 @@ import * as styles from './styles';
 function App() {
   const [open, setOpen] = useState(false);
 
+  const handleCardClick = () => {
+    setOpen(true);
+  };
+
+  const handleBackClick = () => {
+    setOpen(false);
+  };
+
   return (
-    <div css={styles.container}>
-      {open ? <Card /> : <VideoPlayer />}
+    <div css={styles.container(open)}>
+      {open ? (
+        <VideoPlayer onBackClick={handleBackClick} />
+      ) : (
+        <Card onClick={handleCardClick} />
+      )}
     </div>
   );
 }
