@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import colors from '~/styles/colors';
 
 export const container = css`
   width: 320px;
@@ -15,4 +16,19 @@ export const container = css`
   }
 `;
 
-export const spinner = css``;
+export const loadingContainer = css`
+  & > .spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    border-top-color: ${colors.purple};
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;

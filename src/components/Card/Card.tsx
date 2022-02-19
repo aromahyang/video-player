@@ -26,7 +26,9 @@ function Card({ onClick }: Props) {
   useEffect(init, []);
 
   return loading ? (
-    <div>spinner</div>
+    <div css={styles.loadingContainer}>
+      <div className="spinner"></div>
+    </div>
   ) : (
     <div css={styles.container} onClick={onClick}>
       <img src={data.thumb} alt="Poster" />
