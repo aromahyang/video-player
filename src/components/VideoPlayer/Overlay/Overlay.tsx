@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Controls from './Controls';
 import { formatTime } from './utils';
 import * as styles from './styles';
+import ICONS from '~/icons';
 
 interface Props {
   duration: null | number;
   current: number;
   title: string;
   plyaing: boolean;
+  onBackButtonClick: () => void;
   onPlayClick: () => void;
   onBackwardClick: () => void;
   onForwardClick: () => void;
@@ -21,6 +23,7 @@ function Overlay({
   duration,
   title,
   plyaing,
+  onBackButtonClick,
   onPlayClick,
   onBackwardClick,
   onForwardClick,
@@ -40,6 +43,9 @@ function Overlay({
 
   return (
     <div css={styles.container(isVisible)}>
+      <button onClick={onBackButtonClick}>
+        <img src={ICONS['back_button']} alt="뒤로가기" />
+      </button>
       <div>
         <div css={styles.information}>
           <h1>{title}</h1>

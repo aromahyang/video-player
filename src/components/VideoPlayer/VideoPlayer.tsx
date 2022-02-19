@@ -6,10 +6,10 @@ import { toggleFullScreen } from './utils/fullscreen';
 import * as styles from './styles';
 
 interface Props {
-  onBackClick: () => void;
+  onBackButtonClick: () => void;
 }
 
-function VideoPlayer({ onBackClick }: Props) {
+function VideoPlayer({ onBackButtonClick }: Props) {
   const [videoInfo, setVideoInfo] = useState<VideoInfo>({
     url: '',
     title: '',
@@ -133,6 +133,7 @@ function VideoPlayer({ onBackClick }: Props) {
         duration={duration}
         title={videoInfo.title ?? ''}
         plyaing={playing}
+        onBackButtonClick={onBackButtonClick}
         onPlayClick={handlePlayClick}
         onBackwardClick={handleBackwardClick}
         onForwardClick={handleForwardClick}

@@ -16,7 +16,7 @@ function App() {
   return (
     <div css={styles.container(open)}>
       {open ? (
-        <VideoPlayer onBackClick={handleBackClick} />
+        <VideoPlayer onBackButtonClick={handleBackClick} />
       ) : (
         <Card onClick={handleCardClick} />
       )}

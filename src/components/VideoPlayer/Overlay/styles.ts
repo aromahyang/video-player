@@ -14,6 +14,19 @@ export const container = (isVisible: boolean) => css`
   transition: opacity 0.25s ease-in;
   opacity: ${isVisible ? 1 : 0};
 
+  & > button {
+    margin-top: 24px;
+    margin-left: 48px;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    & > img {
+      width: 48px;
+    }
+  }
+
   & > div {
     position: absolute;
     left: 0;
