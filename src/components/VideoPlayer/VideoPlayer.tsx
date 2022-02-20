@@ -64,6 +64,30 @@ function VideoPlayer({ onBackButtonClick }: Props) {
 
   /** ==== Overlay ==== */
 
+  const handleBackButtonClick = () => {
+    setPlaying(false);
+    onBackButtonClick();
+  };
+
+  const handlePipButtonClick = () => {
+    if (
+      document.pictureInPictureEnabled &&
+      videoRef.current &&
+      !videoRef.current.disablePictureInPicture
+    ) {
+      // pip
+      try {
+        if (document.pictureInPictureElement) {
+          document.exitPictureInPicture();
+        }
+        videoRef.current.requestPictureInPicture();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    setPlaying(false);
+  };
+
   const handlePlayClick = () => {
     if (videoRef.current) {
       setPlaying(!playing);
@@ -88,7 +112,14 @@ function VideoPlayer({ onBackButtonClick }: Props) {
     }
   };
 
-  const moveCurrentTime = (value: number) => {
+  const handleTimelineDrag = (value: number) => {
+    if (videoRef.current) {
+      setCurrent(value);
+      videoRef.current.currentTime = value;
+    }
+  };
+
+  const handleTimelineDragEnd = (value: number) => {
     if (videoRef.current) {
       setCurrent(value);
       videoRef.current.currentTime = value;
@@ -133,13 +164,15 @@ function VideoPlayer({ onBackButtonClick }: Props) {
         duration={duration}
         title={videoInfo.title ?? ''}
         plyaing={playing}
-        onBackButtonClick={onBackButtonClick}
+        onBackButtonClick={handleBackButtonClick}
         onPlayClick={handlePlayClick}
         onBackwardClick={handleBackwardClick}
         onForwardClick={handleForwardClick}
         onFullScreenClick={handleFullScreenClick}
-        moveCurrentTime={moveCurrentTime}
+        onTimelineDrag={handleTimelineDrag}
+        onTimelineDragEnd={handleTimelineDragEnd}
         onMouseDown={handleMouseDownInControl}
+        onPipButtonClick={handlePipButtonClick}
       />
       <Skip
         opening={videoInfo.opening ?? []}

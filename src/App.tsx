@@ -9,14 +9,14 @@ function App() {
     setOpen(true);
   };
 
-  const handleBackClick = () => {
+  const handleBackButtonClick = () => {
     setOpen(false);
   };
 
   return (
     <div css={styles.container(open)}>
       {open ? (
-        <VideoPlayer onBackButtonClick={handleBackClick} />
+        <VideoPlayer onBackButtonClick={handleBackButtonClick} />
       ) : (
         <Card onClick={handleCardClick} />
       )}

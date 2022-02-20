@@ -71,12 +71,16 @@ export const controlPanel = css`
     color: unset;
     cursor: pointer;
   }
-`;
 
-export const leftControls = css`
-  button:not(:last-child) {
+  & > div > button:not(:last-child) {
     margin-right: 24px;
   }
 `;
 
-export const rightControls = css``;
+export const leftControls = css``;
+
+export const rightControls = css`
+  .pip-button img {
+    width: 48px;
+  }
+`;

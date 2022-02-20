@@ -11,10 +11,12 @@ interface Props {
   onBackwardClick: () => void;
   onForwardClick: () => void;
   onFullScreenClick: () => void;
-  moveCurrentTime: (value: number) => void;
+  onDrag: (value: number) => void;
+  onDragEnd: (value: number) => void;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onMouseDown: () => void;
+  onPipButtonClick: () => void;
 }
 
 function Controls({
@@ -25,10 +27,12 @@ function Controls({
   onBackwardClick,
   onForwardClick,
   onFullScreenClick,
-  moveCurrentTime,
+  onDrag,
+  onDragEnd,
   onMouseEnter,
   onMouseLeave,
   onMouseDown,
+  onPipButtonClick,
 }: Props) {
   const barRef = useRef<HTMLDivElement>(null);
   const timer: { current: NodeJS.Timeout | null } = useRef(null);
@@ -43,7 +47,7 @@ function Controls({
   const init = () => {
     document.addEventListener('fullscreenchange', handleFullScreen);
     return () =>
-      window.removeEventListener('fullscreenchange', handleFullScreen);
+      document.removeEventListener('fullscreenchange', handleFullScreen);
   };
 
   useEffect(init, []);
@@ -78,14 +82,14 @@ function Controls({
     timer.current = setTimeout(onMouseLeave, 3000);
   };
 
-  const handleMouseMove = (event: any) => {
+  const handleDrag = (event: any) => {
     const value = getCurrentTime(event);
-    moveCurrentTime(value);
+    onDrag(value);
   };
 
-  const handleMouseUp = (event: any) => {
+  const handleDragEnd = (event: any) => {
     const value = getCurrentTime(event);
-    moveCurrentTime(value);
+    onDragEnd(value);
   };
 
   return (
@@ -104,15 +108,15 @@ function Controls({
             )
           )}
           onMouseDown={onMouseDown}
-          onMouseUp={handleMouseUp}
+          onMouseUp={handleDragEnd}
         >
           <div className="timeline" ref={barRef} />
           <div className="progress" />
           <div
             className="timeline-thumb"
             draggable
-            onDrag={handleMouseMove}
-            onDragEnd={handleMouseUp}
+            onDrag={handleDrag}
+            onDragEnd={handleDragEnd}
           />
         </div>
         <div css={styles.controlPanel}>
@@ -138,7 +142,10 @@ function Controls({
               />
             </button>
           </div>
-          <div>
+          <div css={styles.rightControls}>
+            <button className="pip-button" onClick={onPipButtonClick}>
+              <img src={ICONS['pip']} alt="enter PIP mode" />
+            </button>
             <button className="screen-button" onClick={onFullScreenClick}>
               <img
                 src={

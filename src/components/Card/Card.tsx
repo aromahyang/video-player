@@ -33,7 +33,7 @@ function Card({ onClick }: Props) {
     <div css={styles.container} onClick={onClick}>
       <img src={data.thumb} alt="Poster" />
       <section>
-        <p>{data.title}</p>
+        <h3>{data.title}</h3>
         <p>{data.description}</p>
       </section>
     </div>

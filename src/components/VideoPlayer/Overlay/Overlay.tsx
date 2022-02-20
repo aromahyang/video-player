@@ -14,8 +14,10 @@ interface Props {
   onBackwardClick: () => void;
   onForwardClick: () => void;
   onFullScreenClick: () => void;
-  moveCurrentTime: (value: number) => void;
+  onTimelineDrag: (value: number) => void;
+  onTimelineDragEnd: (value: number) => void;
   onMouseDown: () => void;
+  onPipButtonClick: () => void;
 }
 
 function Overlay({
@@ -28,8 +30,10 @@ function Overlay({
   onBackwardClick,
   onForwardClick,
   onFullScreenClick,
-  moveCurrentTime,
+  onTimelineDrag,
+  onTimelineDragEnd,
   onMouseDown,
+  onPipButtonClick,
 }: Props) {
   const [isVisible, setVisible] = useState(true);
 
@@ -62,10 +66,12 @@ function Overlay({
           onBackwardClick={onBackwardClick}
           onForwardClick={onForwardClick}
           onFullScreenClick={onFullScreenClick}
-          moveCurrentTime={moveCurrentTime}
+          onDrag={onTimelineDrag}
+          onDragEnd={onTimelineDragEnd}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseDown={onMouseDown}
+          onPipButtonClick={onPipButtonClick}
         />
       </div>
     </div>
